@@ -1,8 +1,5 @@
 cargo run
 
-# cargo new lib
-cargo new --lib restaurant
-
 
 
 ==========================
