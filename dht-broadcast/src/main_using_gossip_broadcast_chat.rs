@@ -1,44 +1,4 @@
-// Copyright 20l9 Parity Technologies (UK) Ltd.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
-// the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the
-// Software is furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-// DEALINGS IN THE SOFTWARE.
 
-//! A basic key value store demonstrating libp2p and the mDNS and Kademlia protocols.
-//!
-//! 1. Using two terminal windows, start two instances. If you local network
-//!    allows mDNS, they will automatically connect.
-//!
-//! 2. Type `PUT my-key my-value` in terminal one and hit return.
-//!
-//! 3. Type `GET my-key` in terminal two and hit return.
-//!
-//! 4. Close with Ctrl-c.
-//!
-//! You can also store provider records instead of key value records.
-//!
-//! 1. Using two terminal windows, start two instances. If you local network
-//!    allows mDNS, they will automatically connect.
-//!
-//! 2. Type `PUT_PROVIDER my-key` in terminal one and hit return.
-//!
-//! 3. Type `GET_PROVIDERS my-key` in terminal two and hit return.
-//!
-//! 4. Close with Ctrl-c.
 
 use async_std::io;
 use futures::{prelude::*, select};
@@ -57,7 +17,7 @@ use std::time::Duration;
 
 // We create a custom network behaviour that combines Kademlia and mDNS.
 #[derive(NetworkBehaviour)]
-//#[behaviour(to_swarm = "MyBehaviourEvent")]
+#[behaviour(to_swarm = "MyBehaviourEvent")]
 struct MyBehaviour {
     gossipsub: gossipsub::Behaviour,
     kademlia: Kademlia<MemoryStore>,
@@ -65,12 +25,12 @@ struct MyBehaviour {
 
 }
 
-// #[allow(clippy::large_enum_variant)]
-// enum MyBehaviourEvent {
-//     Gossipsub(gossipsub::Event),
-//     Kademlia(KademliaEvent),
-//     Mdns(mdns::Event),
-// }
+#[allow(clippy::large_enum_variant)]
+enum MyBehaviourEvent {
+    Gossipsub(gossipsub::Event),
+    Kademlia(KademliaEvent),
+    Mdns(mdns::Event),
+}
 
 #[async_std::main]
 async fn main() -> Result<(), Box<dyn Error>> {

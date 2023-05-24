@@ -10,5 +10,7 @@ async-std = { version = "1.12", features = ["attributes"] }
 async-trait = "0.1"
 env_logger = "0.10"
 futures = "0.3.28"
+aes-gcm = "0.10.1"
 multiaddr = { version = "0.17.1" }
-libp2p = {version = "0.51.3", features = ["async-std","identify","mplex", "dns", "kad", "mdns", "noise", "macros", "tcp", "websocket", "yamux"] }
+libp2p = {version = "0.51.3", features = ["tokio", "async-std","identify","mplex", "dns", "kad",
+    "mdns", "noise", "macros", "tcp", "websocket", "yamux"] }
